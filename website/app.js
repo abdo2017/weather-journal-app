@@ -43,13 +43,14 @@ generateButton.addEventListener("click", async function buttonClick(e) {
     .then((res) => res.json())
     .then((data) => {
       date.innerHTML = "Date: " + data.date;
-      temp.innerHTML = "Temp in Celsius: " + Math.round((data.temp - 273.15) ) + "C";
+      temp.innerHTML =
+        `Temp in Celsius: ${data.temp}C`;
       content.innerHTML = "you feel " + data.content;
     });
 });
 
 const getWeatherData = async (url, zip, api) => {
-  const fullUrl = `${url}?zip=${zip}&appid=${api}`;
+  const fullUrl = `${url}?zip=${zip}&units=metric&appid=${api}`;
   try {
     let result = await fetch(fullUrl);
     const data = await result.json();
@@ -58,4 +59,3 @@ const getWeatherData = async (url, zip, api) => {
     console.log(err);
   }
 };
-

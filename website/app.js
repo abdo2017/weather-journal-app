@@ -25,41 +25,33 @@ generateButton.addEventListener("click", async function buttonClick(e) {
     temp: data.main.temp,
     content: feelingContent,
   };
-  await fetch("/sendData", {
-    method: "POST",
-    credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newData),
-  });
-
-  const result = await fetch("/getData", {
-    method: "GET",
-    credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  result
-    .json()
+  try {
+    // sending data
+    await fetch("/sendData", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newData),
+    });
+  } catch (err) {
+    console.log(err);
+  }
+  // getting the data
+  fetch("/getData")
+    .then((res) => res.json())
     .then((data) => {
-      console.log(data)
-
       date.innerHTML = "Date: " + data.date;
-      temp.innerHTML = "Temp in kelvin " + data.temp;
+      temp.innerHTML = "Temp in Celsius: " + Math.round((data.temp - 273.15) ) + "C";
       content.innerHTML = "you feel " + data.content;
-      console.log(date)
-      console.log(temp)
-      console.log(content)
-    })
-    .catch((err) => console.error(err));
+    });
 });
 
 const getWeatherData = async (url, zip, api) => {
   const fullUrl = `${url}?zip=${zip}&appid=${api}`;
-  const result = await fetch(fullUrl);
   try {
+    let result = await fetch(fullUrl);
     const data = await result.json();
     return data;
   } catch (err) {
@@ -67,20 +59,3 @@ const getWeatherData = async (url, zip, api) => {
   }
 };
 
-const updateSite = async () => {
-  const result = await fetch("/getData", {
-    method: "GET",
-    credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  try {
-    const data = result.json();
-    date.textContent = data.date;
-    temp.textContent = data.temp;
-    content.textContent = data.content;
-  } catch (err) {
-    console.log(err);
-  }
-};

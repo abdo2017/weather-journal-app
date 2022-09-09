@@ -27,7 +27,7 @@ app.post("/sendData", (req, res) => {
 
 
 // Initialize the main project folder
-const runningServer = app.listen(3000, () => {
+const runningServer = app.listen(3030, () => {
   console.log(
     "server is running on http://localhost:" + runningServer.address().port
   );

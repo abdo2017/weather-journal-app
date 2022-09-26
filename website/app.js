@@ -1,6 +1,6 @@
 /* Global Variables */
 const apikey = "9363d46e33da7295be15f6bc0987b89e";
-const weatherUrl = "http://api.openweathermap.org/data/2.5/weather";
+const weatherUrl = "https://api.openweathermap.org/data/2.5/weather";
 // Create a new date instance dynamically with JS
 let d = new Date();
 let newDate = d.getMonth() + 1 + "." + d.getDate() + "." + d.getFullYear();
@@ -55,6 +55,7 @@ const getWeatherData = async (url, zip, api) => {
     let result = await fetch(fullUrl);
     const data = await result.json();
     return data;
+    // return result;
   } catch (err) {
     console.log(err);
   }
